@@ -12,16 +12,39 @@ public class IPAddress extends Form {
     public IPAddress() {
         MacAddress.addActionListener(new ActionListener() {
             String s = "";
-            String[] all = new String[1000];
-            int total = 0;
 
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (file.getName().contains(".csv")) {
-                        total = 1;
-                        BufferedReader br = new BufferedReader(new FileReader(file));
-                        MAC(br, total);
 
+                        BufferedReader br = new BufferedReader(new FileReader(file));
+                        String line;
+                        int lineNumber = 0;
+
+                        while ((line = br.readLine()) != null) {
+                            String mac = String.valueOf(Mac.getText());
+                            String[] arr = line.split(",");
+                            String[] arr2 = line.split(":");
+                            String S = "";
+                            if (arr2.length == 6) {
+                                S = mac.substring(3, mac.length() - 3);
+                                arr[1] = arr[1].substring(3, arr[1].length() - 3);
+
+                            }
+                            if (S.equals(arr[1])) {
+                                lineNumber++;
+                                if (lineNumber % 2 == 0) {
+                                    s += arr[0] + "\n";
+                                } else {
+                                    s += arr[0];
+                                    for (int j = 0; j < 25 - arr[0].length(); j++) {
+                                        s += String.format("%s", "  ");
+                                    }
+                                }
+
+                            }
+
+                        }
                         if (!s.equals("")) {
                             JOptionPane.showMessageDialog(null,
                                     "file = " + file.getName() + "\n" + s,
@@ -32,14 +55,42 @@ public class IPAddress extends Form {
 
                         br.close();
                     } else {
-
+                        String[] all = new String[1000];
+                        int total = 0;
                         int t = 0;
                         for (int i = 0; i < file.listFiles().length; i++) {
                             if (file.listFiles()[i].toString().contains(".csv")) {
                                 total++;
                                 BufferedReader br = new BufferedReader(new FileReader(file.listFiles()[i]));
-                                MAC(br, total);
+                                String line;
+                                int lineNumber = 0;
 
+                                while ((line = br.readLine()) != null) {
+                                    String mac = String.valueOf(Mac.getText());
+                                    String[] arr = line.split(",");
+                                    String[] arr2 = line.split(":");
+                                    String S = "";
+                                    if (arr2.length == 6) {
+                                        S = mac.substring(3, mac.length() - 3);
+                                        arr[1] = arr[1].substring(3, arr[1].length() - 3);
+
+                                    }
+                                    if (S.equals(arr[1])) {
+                                        lineNumber++;
+                                        if (lineNumber % 2 == 0) {
+                                            s += arr[0] + "\n";
+                                        } else {
+                                            s += arr[0];
+                                            for (int j = 0; j < 25 - arr[0].length(); j++) {
+                                                s += String.format("%s", "  ");
+                                            }
+                                        }
+
+                                    }
+
+                                }
+                                all[total - 1] = "";
+                                all[total - 1] += s;
                                 br.close();
                                 s = "";
                             }
@@ -69,18 +120,11 @@ public class IPAddress extends Form {
                         }
 
                         for (int i = 0; i < possibilities.length; i++) {
-                            if (all[i].equals("")) {
-                                JOptionPane.showMessageDialog(null,
-                                        "NO IP address",
-                                        "IP address",
-                                        JOptionPane.PLAIN_MESSAGE);
-                                break;
-                            } else if (s.equals(possibilities[i])) {
+                            if (s.equals(possibilities[i]) && !all[i].equals("")) {
                                 JOptionPane.showMessageDialog(null,
                                         "file = " + s + "\n" + all[i],
                                         "IP address",
                                         JOptionPane.PLAIN_MESSAGE);
-                                break;
                             }
                         }
                     }
@@ -89,39 +133,6 @@ public class IPAddress extends Form {
                 } catch (NullPointerException ex) {
                     Dialog.Nofile();
                 }
-
-            }
-
-            private void MAC(BufferedReader br, int total) throws IOException {
-                String line;
-                int lineNumber = 0;
-
-                while ((line = br.readLine()) != null) {
-                    String mac = String.valueOf(Mac.getText());
-                    String[] arr = line.split(",");
-                    String[] arr2 = line.split(":");
-                    String S = "";
-                    if (arr2.length == 6) {
-                        S = mac.substring(3, mac.length() - 3);
-                        arr[1] = arr[1].substring(3, arr[1].length() - 3);
-
-                    }
-                    if (S.equals(arr[1])) {
-                        lineNumber++;
-                        if (lineNumber % 2 == 0) {
-                            s += arr[0] + "\n";
-                        } else {
-                            s += arr[0];
-                            for (int j = 0; j < 25 - arr[0].length(); j++) {
-                                s += String.format("%s", "  ");
-                            }
-                        }
-
-                    }
-
-                }
-                all[total - 1] = "";
-                all[total - 1] += s;
             }
 
         });
