@@ -12,12 +12,15 @@ public class IPAddress extends Form {
     public IPAddress() {
         MacAddress.addActionListener(new ActionListener() {
             String s = "";
+            String[] all = new String[1000];
+            int total = 0;
 
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (file.getName().contains(".csv")) {
+                        total = 1;
                         BufferedReader br = new BufferedReader(new FileReader(file));
-                        MAC(br);
+                        MAC(br, total);
 
                         if (!s.equals("")) {
                             JOptionPane.showMessageDialog(null,
@@ -29,16 +32,14 @@ public class IPAddress extends Form {
 
                         br.close();
                     } else {
-                        int total = 0;
+
                         int t = 0;
-                        String[] all = new String[1000];
                         for (int i = 0; i < file.listFiles().length; i++) {
                             if (file.listFiles()[i].toString().contains(".csv")) {
                                 total++;
                                 BufferedReader br = new BufferedReader(new FileReader(file.listFiles()[i]));
-                                MAC(br);
-                                all[total - 1] = "";
-                                all[total - 1] += s;
+                                MAC(br, total);
+
                                 br.close();
                                 s = "";
                             }
@@ -79,6 +80,7 @@ public class IPAddress extends Form {
                                         "file = " + s + "\n" + all[i],
                                         "IP address",
                                         JOptionPane.PLAIN_MESSAGE);
+                                break;
                             }
                         }
                     }
@@ -90,7 +92,7 @@ public class IPAddress extends Form {
 
             }
 
-            private void MAC(BufferedReader br) throws IOException {
+            private void MAC(BufferedReader br, int total) throws IOException {
                 String line;
                 int lineNumber = 0;
 
@@ -110,7 +112,7 @@ public class IPAddress extends Form {
                             s += arr[0] + "\n";
                         } else {
                             s += arr[0];
-                            for (int i = 0; i < 25 - arr[0].length(); i++) {
+                            for (int j = 0; j < 25 - arr[0].length(); j++) {
                                 s += String.format("%s", "  ");
                             }
                         }
@@ -118,6 +120,8 @@ public class IPAddress extends Form {
                     }
 
                 }
+                all[total - 1] = "";
+                all[total - 1] += s;
             }
 
         });
