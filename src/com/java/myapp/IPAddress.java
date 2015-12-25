@@ -3,6 +3,7 @@ package com.java.myapp;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -25,14 +26,18 @@ public class IPAddress extends Form {
                             String mac = String.valueOf(Mac.getText());
                             String[] arr = line.split(",");
                             String[] arr2 = line.split(":");
+                            String[] arr3 = mac.split(":");
                             String S = "";
-                            if (arr2.length == 6) {
+                            if (arr2.length == 6 && (arr3.length == 6 && mac.length() == 17)) {
                                 S = mac.substring(3, mac.length() - 3);
                                 arr[1] = arr[1].substring(3, arr[1].length() - 3);
 
+                            } else {
+                                S = mac;
                             }
                             if (S.equals(arr[1])) {
                                 lineNumber++;
+
                                 if (lineNumber % 2 == 0) {
                                     s += arr[0] + "\n";
                                 } else {
@@ -45,9 +50,14 @@ public class IPAddress extends Form {
                             }
 
                         }
+                        String str = "file = " + file.getName();
+                        String s0 = "";
+                        for (int i = 0; i < 32 - str.length(); i++) {
+                            s0 += String.format("%s", " ");
+                        }
                         if (!s.equals("")) {
                             JOptionPane.showMessageDialog(null,
-                                    "file = " + file.getName() + "\n" + s,
+                                    "file = " + file.getName() + s0 + "Total = " + lineNumber + "\n" + s,
                                     "IP address",
                                     JOptionPane.PLAIN_MESSAGE);
                         }
@@ -55,25 +65,30 @@ public class IPAddress extends Form {
 
                         br.close();
                     } else {
-                        String[] all = new String[1000];
+                        String[] all = new String[10000];
                         int total = 0;
                         int t = 0;
+                        int lineNumber = 0;
+                        int[] numLine = new int[10000];
                         for (int i = 0; i < file.listFiles().length; i++) {
                             if (file.listFiles()[i].toString().contains(".csv")) {
                                 total++;
                                 BufferedReader br = new BufferedReader(new FileReader(file.listFiles()[i]));
                                 String line;
-                                int lineNumber = 0;
 
                                 while ((line = br.readLine()) != null) {
                                     String mac = String.valueOf(Mac.getText());
                                     String[] arr = line.split(",");
                                     String[] arr2 = line.split(":");
+                                    String[] arr3 = mac.split(":");
                                     String S = "";
-                                    if (arr2.length == 6) {
+
+                                    if (arr2.length == 6 && (arr3.length == 6 && mac.length() == 17)) {
                                         S = mac.substring(3, mac.length() - 3);
                                         arr[1] = arr[1].substring(3, arr[1].length() - 3);
 
+                                    } else {
+                                        S = mac;
                                     }
                                     if (S.equals(arr[1])) {
                                         lineNumber++;
@@ -87,21 +102,22 @@ public class IPAddress extends Form {
                                         }
 
                                     }
-
+                                    numLine[total - 1] = lineNumber;
                                 }
+                                lineNumber = 0;
                                 all[total - 1] = "";
                                 all[total - 1] += s;
                                 br.close();
                                 s = "";
+
                             }
 
                         }
-
                         String[] possibilities = new String[total];
 
-                        for (int i = 0; i < file.listFiles().length; i++) {
-                            if (file.listFiles()[i].toString().contains(".csv")) {
-                                possibilities[t] = file.listFiles()[i].getName();
+                        for (File listFile : file.listFiles()) {
+                            if (listFile.toString().contains(".csv")) {
+                                possibilities[t] = listFile.getName();
                                 t++;
                             }
                         }
@@ -118,11 +134,15 @@ public class IPAddress extends Form {
                         } catch (NullPointerException ex) {
                             Dialog.Nofile();
                         }
-
+                        String str = "file = " + s;
+                        String s0 = "";
+                        for (int i = 0; i < 27 - str.length(); i++) {
+                            s0 += String.format("%s", "  ");
+                        }
                         for (int i = 0; i < possibilities.length; i++) {
                             if (s.equals(possibilities[i]) && !all[i].equals("")) {
                                 JOptionPane.showMessageDialog(null,
-                                        "file = " + s + "\n" + all[i],
+                                        "file = " + s + s0 + " Total = " + numLine[i] + "\n" + all[i],
                                         "IP address",
                                         JOptionPane.PLAIN_MESSAGE);
                             }
@@ -132,11 +152,12 @@ public class IPAddress extends Form {
                     ex.printStackTrace();
                 } catch (NullPointerException ex) {
                     Dialog.Nofile();
+                } catch (StringIndexOutOfBoundsException ex) {
+                    Dialog.Invalidformat();
                 }
             }
 
         });
         getContentPane().add(MacAddress);
-
     }
 }
