@@ -25,6 +25,7 @@ public class Form extends JFrame {
 
     public Form() {
         super("Mac Address");
+        setResizable(false);
         setSize(450, 170);
         setLocation(500, 280);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +37,7 @@ public class Form extends JFrame {
         getContentPane().add(Mac);
 
         // Label Result
-        final JLabel lblResult = new JLabel("File", JLabel.CENTER);
+        final JLabel lblResult = new JLabel("Open File", JLabel.CENTER);
         lblResult.setBounds(2, 20, 270, 14);
         getContentPane().add(lblResult);
 
@@ -158,7 +159,15 @@ public class Form extends JFrame {
             }
         });
         getContentPane().add(IP_MAC);
-
+        JButton clear = new JButton("clear");
+        clear.setBackground(new java.awt.Color(255, 0, 0));
+        clear.setBounds(4, 55, 55, 22);
+        clear.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Mac.setText("");
+            }
+        });
+        getContentPane().add(clear);
     }
 
 }

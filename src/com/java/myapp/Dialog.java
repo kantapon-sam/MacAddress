@@ -43,4 +43,11 @@ public class Dialog {
                     JOptionPane.WARNING_MESSAGE);
     }
 
+    public static void Invalidformat() {
+           JOptionPane.showMessageDialog(null,
+                "Invalid format !!!",
+                "Error!",
+                JOptionPane.ERROR_MESSAGE);
+    }
+
 }
