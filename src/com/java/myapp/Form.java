@@ -21,7 +21,12 @@ public class Form extends JFrame {
     private JTable table;
     protected File file;
     protected JButton MacAddress;
-    protected JTextField Mac;
+    protected JTextField Mac0;
+    protected JTextField Mac1;
+    protected JTextField Mac2;
+    protected JTextField Mac3;
+    protected JTextField Mac4;
+    protected JTextField Mac5;
 
     public Form() {
         super("Mac Address");
@@ -30,12 +35,32 @@ public class Form extends JFrame {
         setLocation(500, 280);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
-
-        // Text Mac
-        Mac = new JTextField();
-        Mac.setBounds(62, 56, 162, 20);
-        getContentPane().add(Mac);
-
+        SizeDocumentFilter sf = new SizeDocumentFilter(2);
+        Mac0 = new JTextField();
+        Mac0.setDocument(new MaxLengthDocument(2));
+        Mac0.setBounds(29, 56, 30, 20);
+        getContentPane().add(Mac0);
+        Mac1 = new JTextField();
+        Mac1.setDocument(new MaxLengthDocument(2));
+        Mac1.setBounds(69, 56, 30, 20);
+        getContentPane().add(Mac1);
+        Mac2 = new JTextField();
+        Mac2.setDocument(new MaxLengthDocument(2));
+        Mac2.setBounds(109, 56, 30, 20);
+        getContentPane().add(Mac2);
+        Mac3 = new JTextField();
+        Mac3.setDocument(new MaxLengthDocument(2));
+        Mac3.setBounds(149, 56, 30, 20);
+        getContentPane().add(Mac3);
+        Mac4 = new JTextField();
+        Mac4.setDocument(new MaxLengthDocument(2));
+        Mac4.setBounds(189, 56, 30, 20);
+        getContentPane().add(Mac4);
+        Mac5 = new JTextField();
+        Mac5.setDocument(new MaxLengthDocument(2));
+        Mac5.setBounds(229, 56, 30, 20);
+        getContentPane().add(Mac5);
+        sf.installFilter(Mac0, Mac1, Mac2, Mac3, Mac4);
         // Label Result
         final JLabel lblResult = new JLabel("Open File", JLabel.CENTER);
         lblResult.setBounds(2, 20, 270, 14);
@@ -118,13 +143,13 @@ public class Form extends JFrame {
 
             private void Sub(BufferedReader br, String path) throws IOException {
                 String line;
-                String str;
+                String str = "";
                 String all = "";
                 int Number = 0;
                 int end = 0;
                 while ((line = br.readLine()) != null) {
                     String[] arr = line.split("\\.");
-
+                    String[] arr2 = line.split("-");
                     for (int i = 0; i < arr[0].length(); i++) {
                         if (arr[0].charAt(i) >= '0' && arr[0].charAt(i) <= '9') {
                             Number++;
@@ -143,6 +168,11 @@ public class Form extends JFrame {
                         String[] s = line.split(":");
                         if (s.length >= 5) {
                             str = line.substring(arr[0].length() - Number, end) + "," + line.substring(s[0].length() - 2);
+                        } else if (arr2.length > 1) {
+                            if (arr2[1].length() == 4) {
+                                str = line.substring(arr[0].length() - Number, end) + "," + arr2[0].substring(arr2[0].length() - 4, arr2[0].length()) + "-" + arr2[1].substring(0, 4) + "-" + arr2[2].substring(0, 4);
+                            }
+
                         } else {
                             str = line.substring(arr[0].length() - Number, end) + ",-";
                         }
@@ -161,10 +191,15 @@ public class Form extends JFrame {
         getContentPane().add(IP_MAC);
         JButton clear = new JButton("clear");
         clear.setBackground(new java.awt.Color(255, 0, 0));
-        clear.setBounds(4, 55, 55, 22);
+        clear.setBounds(4, 80, 55, 22);
         clear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Mac.setText("");
+                Mac0.setText("");
+                Mac1.setText("");
+                Mac2.setText("");
+                Mac3.setText("");
+                Mac4.setText("");
+                Mac5.setText("");
             }
         });
         getContentPane().add(clear);

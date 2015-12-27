@@ -15,6 +15,14 @@ public class IPAddress extends Form {
             String s = "";
 
             public void actionPerformed(ActionEvent e) {
+                String mac0 = String.valueOf(Mac0.getText().toLowerCase());
+                String mac1 = String.valueOf(Mac1.getText().toLowerCase());
+                String mac2 = String.valueOf(Mac2.getText().toLowerCase());
+                String mac3 = String.valueOf(Mac3.getText().toLowerCase());
+                String mac4 = String.valueOf(Mac4.getText().toLowerCase());
+                String mac5 = String.valueOf(Mac5.getText().toLowerCase());
+                String macA = mac0 + ":" + mac1 + ":" + mac2 + ":" + mac3 + ":" + mac4 + ":" + mac5;
+                String macB = mac0 + mac1 + "-" + mac2 + mac3 + "-" + mac4 + mac5;
                 try {
                     if (file.getName().contains(".csv")) {
 
@@ -23,21 +31,25 @@ public class IPAddress extends Form {
                         int lineNumber = 0;
 
                         while ((line = br.readLine()) != null) {
-                            String mac = String.valueOf(Mac.getText());
+                            String mac = String.valueOf(Mac0.getText().toLowerCase());
                             String[] arr = line.split(",");
                             String[] arr2 = line.split(":");
-                            String[] arr3 = mac.split(":");
+                            String[] arr3 = macA.split(":");
+                            String[] arr4 = line.split("-");
+                            String[] arr5 = macB.split("-");
                             String S = "";
-                            if (arr2.length == 6 && (arr3.length == 6 && mac.length() == 17)) {
-                                S = mac.substring(3, mac.length() - 3);
+                            if (arr2.length == 6 && (arr3.length == 6 && macA.length() == 17)) {
+                                S = macA.substring(3, macA.length() - 3);
                                 arr[1] = arr[1].substring(3, arr[1].length() - 3);
 
+                            } else if (arr4.length == 3 && (arr5.length == 3 && macB.length() == 14)) {
+                                S = macB.substring(2, macB.length() - 2);
+                                arr[1] = arr[1].substring(2, arr[1].length() - 2);
                             } else {
                                 S = mac;
                             }
                             if (S.equals(arr[1])) {
                                 lineNumber++;
-
                                 if (lineNumber % 2 == 0) {
                                     s += arr[0] + "\n";
                                 } else {
@@ -77,16 +89,21 @@ public class IPAddress extends Form {
                                 String line;
 
                                 while ((line = br.readLine()) != null) {
-                                    String mac = String.valueOf(Mac.getText());
+                                    String mac = String.valueOf(Mac0.getText().toLowerCase());
                                     String[] arr = line.split(",");
                                     String[] arr2 = line.split(":");
-                                    String[] arr3 = mac.split(":");
+                                    String[] arr3 = macA.split(":");
+                                    String[] arr4 = line.split("-");
+                                    String[] arr5 = macB.split("-");
                                     String S = "";
 
-                                    if (arr2.length == 6 && (arr3.length == 6 && mac.length() == 17)) {
-                                        S = mac.substring(3, mac.length() - 3);
+                                    if (arr2.length == 6 && (arr3.length == 6 && macA.length() == 17)) {
+                                        S = macA.substring(3, macA.length() - 3);
                                         arr[1] = arr[1].substring(3, arr[1].length() - 3);
 
+                                    } else if (arr4.length == 3 && (arr5.length == 3 && macB.length() == 14)) {
+                                        S = macB.substring(2, macB.length() - 2);
+                                        arr[1] = arr[1].substring(2, arr[1].length() - 2);
                                     } else {
                                         S = mac;
                                     }
