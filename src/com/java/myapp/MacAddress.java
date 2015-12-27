@@ -1,4 +1,5 @@
 package com.java.myapp;
+
 public class MacAddress {
 
     public static void main(String[] args) {
