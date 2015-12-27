@@ -60,7 +60,7 @@ public class Form extends JFrame {
         Mac5.setDocument(new MaxLengthDocument(2));
         Mac5.setBounds(229, 56, 30, 20);
         getContentPane().add(Mac5);
-        sf.installFilter(Mac0, Mac1, Mac2, Mac3, Mac4);
+        sf.installFilter(Mac0, Mac1, Mac2, Mac3, Mac4, Mac5);
         // Label Result
         final JLabel lblResult = new JLabel("Open File", JLabel.CENTER);
         lblResult.setBounds(2, 20, 270, 14);
