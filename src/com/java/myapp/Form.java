@@ -38,34 +38,36 @@ public class Form extends JFrame {
         SizeDocumentFilter sf = new SizeDocumentFilter(2);
         Mac0 = new JTextField();
         Mac0.setDocument(new MaxLengthDocument(2));
-        Mac0.setBounds(29, 56, 30, 20);
+        Mac0.setBounds(49, 56, 30, 19);
         getContentPane().add(Mac0);
         Mac1 = new JTextField();
         Mac1.setDocument(new MaxLengthDocument(2));
-        Mac1.setBounds(69, 56, 30, 20);
+        Mac1.setBounds(89, 56, 30, 19);
         getContentPane().add(Mac1);
         Mac2 = new JTextField();
         Mac2.setDocument(new MaxLengthDocument(2));
-        Mac2.setBounds(109, 56, 30, 20);
+        Mac2.setBounds(129, 56, 30, 19);
         getContentPane().add(Mac2);
         Mac3 = new JTextField();
         Mac3.setDocument(new MaxLengthDocument(2));
-        Mac3.setBounds(149, 56, 30, 20);
+        Mac3.setBounds(169, 56, 30, 19);
         getContentPane().add(Mac3);
         Mac4 = new JTextField();
         Mac4.setDocument(new MaxLengthDocument(2));
-        Mac4.setBounds(189, 56, 30, 20);
+        Mac4.setBounds(209, 56, 30, 19);
         getContentPane().add(Mac4);
         Mac5 = new JTextField();
         Mac5.setDocument(new MaxLengthDocument(2));
-        Mac5.setBounds(229, 56, 30, 20);
+        Mac5.setBounds(249, 56, 30, 19);
         getContentPane().add(Mac5);
         sf.installFilter(Mac0, Mac1, Mac2, Mac3, Mac4, Mac5);
         // Label Result
-        final JLabel lblResult = new JLabel("Open File", JLabel.CENTER);
+         final JLabel lblResult = new JLabel("Open File", JLabel.CENTER);
         lblResult.setBounds(2, 20, 270, 14);
         getContentPane().add(lblResult);
-
+        final JLabel Success = new JLabel("Convert CSV file", JLabel.CENTER);
+        Success.setBounds(2, 95, 270, 14);
+        getContentPane().add(Success);
         // Table
         table = new JTable();
         getContentPane().add(table);
@@ -99,18 +101,20 @@ public class Form extends JFrame {
         IP_MAC.setBounds(290, 90, 135, 23);
 
         IP_MAC.addActionListener(new ActionListener() {
+            
             @Override
             public void actionPerformed(ActionEvent e) {
+                Success.setText("Please wait for success");
                 int fileError = -1;
                 try {
                     Selectfile Select = new Selectfile();
-
                     try {
                         if (Select.getChooser().getSelectedFile().getName().contains(".txt")) {
                             new File(Select.getChooser().getSelectedFile().getPath().split(".txt")[0] + ".csv").delete();
                             BufferedReader br = new BufferedReader(new FileReader(Select.getFile()));
                             String pathOutput = Select.getFile().getPath().split("txt")[0] + "csv";
                             Sub(br, pathOutput);
+                            Success.setText("Success");
                             Dialog.Success();
                         } else {
                             for (File fileFolder : Select.getFile().listFiles()) {
@@ -125,7 +129,7 @@ public class Form extends JFrame {
                                     Sub(br, pathOutput);
                                 }
                             }
-
+                            Success.setText("Success");
                             Dialog.Success();
                         }
                     } catch (NullPointerException ex) {
@@ -138,6 +142,7 @@ public class Form extends JFrame {
                         }
                     }
                 } catch (NullPointerException ex) {
+                    Success.setText("Convert CSV file");
                 }
             }
 
@@ -189,9 +194,9 @@ public class Form extends JFrame {
             }
         });
         getContentPane().add(IP_MAC);
-        JButton clear = new JButton("clear");
+        JButton clear = new JButton("C");
         clear.setBackground(new java.awt.Color(255, 0, 0));
-        clear.setBounds(4, 80, 55, 22);
+        clear.setBounds(2, 54, 39, 23);
         clear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Mac0.setText("");

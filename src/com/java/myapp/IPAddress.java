@@ -38,11 +38,12 @@ public class IPAddress extends Form {
                             String[] arr4 = line.split("-");
                             String[] arr5 = macB.split("-");
                             String S = "";
-                            if (arr2.length == 6 && (arr3.length == 6 && macA.length() == 17)) {
+                            if ((arr2.length == 6 && (arr3.length == 6 && macA.length() == 17))
+                                    && ((macA.charAt(0) != ' ' && macA.charAt(1) != ' ') && (macA.charAt(15) != ' ' && macA.charAt(16) != ' '))) {
                                 S = macA.substring(3, macA.length() - 3);
                                 arr[1] = arr[1].substring(3, arr[1].length() - 3);
-
-                            } else if (arr4.length == 3 && (arr5.length == 3 && macB.length() == 14)) {
+                            } else if ((arr4.length == 3 && (arr5.length == 3 && macB.length() == 14))
+                                    && ((macB.charAt(0) != ' ' && macB.charAt(1) != ' ') && (macB.charAt(12) != ' ' && macB.charAt(13) != ' '))) {
                                 S = macB.substring(2, macB.length() - 2);
                                 arr[1] = arr[1].substring(2, arr[1].length() - 2);
                             } else {
@@ -97,11 +98,13 @@ public class IPAddress extends Form {
                                     String[] arr5 = macB.split("-");
                                     String S = "";
 
-                                    if (arr2.length == 6 && (arr3.length == 6 && macA.length() == 17)) {
+                                    if ((arr2.length == 6 && (arr3.length == 6 && macA.length() == 17))
+                                            && ((macA.charAt(0) != ' ' && macA.charAt(1) != ' ') && (macA.charAt(15) != ' ' && macA.charAt(16) != ' '))) {
                                         S = macA.substring(3, macA.length() - 3);
                                         arr[1] = arr[1].substring(3, arr[1].length() - 3);
 
-                                    } else if (arr4.length == 3 && (arr5.length == 3 && macB.length() == 14)) {
+                                    } else if ((arr4.length == 3 && (arr5.length == 3 && macB.length() == 14))
+                                            && ((macB.charAt(0) != ' ' && macB.charAt(1) != ' ') && (macB.charAt(12) != ' ' && macB.charAt(13) != ' '))) {
                                         S = macB.substring(2, macB.length() - 2);
                                         arr[1] = arr[1].substring(2, arr[1].length() - 2);
                                     } else {
@@ -173,7 +176,6 @@ public class IPAddress extends Form {
                     Dialog.Invalidformat();
                 }
             }
-
         });
         getContentPane().add(MacAddress);
     }

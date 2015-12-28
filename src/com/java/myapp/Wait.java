@@ -16,7 +16,6 @@ public class Wait extends JFrame {
         // Text Label
         JLabel welcome = new JLabel("Please wait for success");
         welcome.setBounds(60, 15, 150, 10);
-
         // Panel
         JPanel panel = new JPanel();
         panel.setLayout(null);
